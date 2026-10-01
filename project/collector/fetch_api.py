@@ -50,7 +50,11 @@ def fetch_and_save():
     while True:
         response = requests.get(
             url,
-            params = {"page" : page, "perPage" : PER_PAGE, "serviceKey": token},
+            params = {
+                "page" : page, 
+                "perPage" : PER_PAGE, 
+                "serviceKey": token
+            },
             timeout=10
         )
 
