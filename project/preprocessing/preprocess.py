@@ -13,12 +13,12 @@ from pymongo import MongoClient
 # DEBUG = False
 
 # 팀에서 정한 접속 정보로 맞추기 (config.py가 있으면 거기서 import 해도 됨)
-client = MongoClient("mongodb://localhost:27017")        # 'mongodb://localhost:27017'
-db = client['url_db']                  # 'url_db'
-col = db['url_db']              # 함수 인자로 받은 값 (임시값)
-doc = col.find_one({"_id": ObjectId('6abe513f1651f1469d220455')})
-
+MONGO_URI = "mongodb://localhost:27017"
+MONGO_DB = "url_db"
+TEST_COLLECTION = "phishing_raw"
+TEST_MONGO_ID = "6abe513f1651f1469d220455"
 IP_PATTERN = re.compile(r"^\d{1,3}(\.\d{1,3}){3}$")
+
 COLUMNS = ["date", "month", "masked_url", "domain", "tld"]
 # CSV_NAME = "20231231.csv"  # 테스트용 CSV 파일명 (지워도 됨)
 
@@ -165,8 +165,8 @@ def preprocess(collection_name, mongo_id):
     return result
 
 
+# 파일 맨 아래
+
 if __name__ == "__main__":
-    # 실제 컬렉션명과 수집 시 받은 _id로 바꿔서 테스트
-    result = preprocess("phishing_raw", "6abe513f1651f1469d220455")
+    result = preprocess(TEST_COLLECTION, TEST_MONGO_ID)
     print(result.head(10))
-    # print(result["tld"].value_counts().head(10))
