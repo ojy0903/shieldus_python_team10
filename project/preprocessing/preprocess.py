@@ -145,10 +145,28 @@ def preprocess(collection_name, mongo_id):
     df = df.drop_duplicates(subset=["url"])
     # print(f" 중복 제거 후: {len(df)}건 ({before - len(df)}건 제거)")
 
+    # 5. 도메인·TLD 추출 (마스킹 전에)
+    df["domain"] = df["url"].apply(extract_domain)
+    df["tld"] = df["domain"].apply(extract_tld)
+    # print(f" 도메인·TLD 추출 완료 (TLD 종류 {df['tld'].nunique()}개)")
+
+    # 6. 링크 마스킹
+    df["masked_url"] = df["url"].apply(mask_url)
+    print(f"마스킹 완료")
+
+    # 7. 날짜 정리
+    df["date"] = parse_dates(df["date"])
+    df["month"] = df["date"].dt.to_period("M").astype(str).replace("NaT", "")
+    print(f"날짜 정리 완료")
+
+    # 8. 원본 URL 제거, 컬럼 정리 후 반환
+    result = df[COLUMNS].reset_index(drop=True)
+    print(f"완료: 최종 {len(result)}건")
+    return result
 
 
 if __name__ == "__main__":
-    example_collection = "phishing_raw"  # 실제 컬렉션명으로 바꿔서 테스트
     # 실제 컬렉션명과 수집 시 받은 _id로 바꿔서 테스트
-    # result = preprocess("phishing_raw", "6abe513f1651f1469d220455")
-    # print(result.head())
+    result = preprocess("phishing_raw", "6abe513f1651f1469d220455")
+    print(result.head(10))
+    # print(result["tld"].value_counts().head(10))
