@@ -15,7 +15,7 @@ from pymongo import MongoClient
 # 팀에서 정한 접속 정보로 맞추기 (config.py가 있으면 거기서 import 해도 됨)
 client = MongoClient("mongodb://localhost:27017")        # 'mongodb://localhost:27017'
 db = client['url_db']                  # 'url_db'
-col = db['c']              # 함수 인자로 받은 값
+col = db['url_db']              # 함수 인자로 받은 값 (임시값)
 doc = col.find_one({"_id": ObjectId('6abe513f1651f1469d220455')})
 
 IP_PATTERN = re.compile(r"^\d{1,3}(\.\d{1,3}){3}$")
