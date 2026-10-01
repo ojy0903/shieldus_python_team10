@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2. 전처리</title>
+</head>
+<body>
+  <h1>2. 중복 제거 &amp; 링크 마스킹 전처리</h1>
+
+  {% if mongo_id %}
+    <form action="{{ url_for('run_preprocess') }}" method="post">
+      <button type="submit">전처리 실행</button>
+    </form>
+  {% else %}
+    <p>1단계 수집 데이터가 없습니다.</p>
+  {% endif %}
+
+  {% if processed_data %}
+    <ul>
+      {% for row in processed_data %}
+        <li>{{ row }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>아직 전처리된 데이터가 없습니다.</p>
+  {% endif %}
+
+  <form action="{{ url_for('index') }}" method="get">
+    <button type="submit">메인으로 돌아가기</button>
+  </form>
+</body>
+</html>
