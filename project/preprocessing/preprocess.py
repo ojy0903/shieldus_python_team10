@@ -1,6 +1,7 @@
 # 2. MongoDB 원본에서 중복 제거·마스킹 후 DataFrame으로 반환한다.
 import os
 import re
+import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -8,15 +9,16 @@ import pandas as pd
 from bson import ObjectId
 from bson.errors import InvalidId
 from pymongo import MongoClient
+from dotenv import load_dotenv
 
 # True로 바꾸면 URL 하나하나의 처리 결과까지 출력 (행이 많으면 매우 길어짐)
 # DEBUG = False
 
-# 팀에서 정한 접속 정보로 맞추기 (config.py가 있으면 거기서 import 해도 됨)
-MONGO_URI = "mongodb://localhost:27017"
-MONGO_DB = "url_db"
-TEST_COLLECTION = "phishing_raw"
-TEST_MONGO_ID = "6abe513f1651f1469d220455"
+load_dotenv()
+
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+MONGO_DB = os.getenv("MONGO_DB", "url_db")
+
 IP_PATTERN = re.compile(r"^\d{1,3}(\.\d{1,3}){3}$")
 
 COLUMNS = ["date", "month", "masked_url", "domain", "tld"]
@@ -118,9 +120,9 @@ def preprocess(collection_name, mongo_id):
         print(f"[!!][preprocess] 잘못된 mongo_id: {mongo_id!r}")
         return pd.DataFrame(columns=COLUMNS)
 
-    client = MongoClient("mongodb://localhost:27017")
+    client = MongoClient(MONGO_URI)
     try:
-        doc = client['url_db'][collection_name].find_one({"_id": object_id})
+        doc = client[MONGO_DB][collection_name].find_one({"_id": object_id})
     finally:
         client.close()
 
@@ -168,5 +170,8 @@ def preprocess(collection_name, mongo_id):
 # 파일 맨 아래
 
 if __name__ == "__main__":
-    result = preprocess(TEST_COLLECTION, TEST_MONGO_ID)
-    print(result.head(10))
+    # 사용법: python -m preprocessing.preprocess <컬렉션명> <mongo_id>
+    if len(sys.argv) != 3:
+        print("사용법: python -m preprocessing.preprocess <컬렉션명> <mongo_id>")
+        sys.exit(1)
+    print(preprocess(sys.argv[1], sys.argv[2]).head(10))
