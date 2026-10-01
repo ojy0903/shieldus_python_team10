@@ -1,6 +1,8 @@
 # app.py — 단계별 페이지를 보여주는 Flask 서버
 from flask import Flask, render_template, request, redirect, url_for
 
+from collector.fetch_api import fetch_and_save
+
 app = Flask(__name__)
 
 # 각 단계 결과를 저장하는 전역변수 (아직 데이터가 없으면 None / 빈 리스트)
@@ -30,7 +32,14 @@ def collect():
 
 @app.route('/collect/run', methods=['POST'])
 def run_collect():
-    # TODO: fetch_and_save() 호출 후 collection_name, mongo_id 전역변수에 저장
+    global collection_name, mongo_id
+    # 공공데이터 수집 후 MongoDB 저장, 반환된 컬렉션명과 몽고DB ID 를 전역변수에 저장
+    try:
+        collection_name, mongo_id = fetch_and_save()
+    except Exception as e:
+        # .env 미설정, API/MongoDB 통신 실패 등은 수집 페이지에 에러 메시지로 표시
+        return render_template('collect.html', collection_name=collection_name,
+                               mongo_id=mongo_id, error=str(e))
     return redirect(url_for('collect'))
 
 

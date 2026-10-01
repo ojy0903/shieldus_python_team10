@@ -12,6 +12,10 @@
     <button type="submit">수집 실행</button>
   </form>
 
+  {% if error %}
+    <p>수집 실패: {{ error }}</p>
+  {% endif %}
+
   {% if mongo_id %}
     <p>컬렉션: {{ collection_name }}</p>
     <p>몽고DB ID: {{ mongo_id }}</p>
