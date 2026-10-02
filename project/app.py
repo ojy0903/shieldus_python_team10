@@ -54,11 +54,13 @@ def preprocess(error=None):
     if processed_data is None:
         rows, total_count = [], 0
     else:
+        # pandas에서 astype({'date': str})으로 JSON 직렬화
         rows = processed_data.head(PREVIEW_ROWS).astype({'date': str}).to_dict('records')
         total_count = len(processed_data)
     return render_template('preprocess.html', mongo_id=mongo_id, processed_data=rows,
                            total_count=total_count, error=error)
 
+# 실제 전처리 수행
 @app.route('/preprocess/run', methods=['POST'])
 def run_preprocess():
     global processed_data
@@ -82,6 +84,7 @@ def export():
     return render_template('export.html', processed_data=processed_data is not None,
                            domain_stats=domain_stats, protocol_stats=protocol_stats)
 
+# 실제 CSV 저장 & 통계 수행
 @app.route('/export/run', methods=['POST'])
 def run_export():
     # TODO: save_stats() 후 load_domain_stats(), load_protocol_stats() 결과를 전역변수에 저장
