@@ -17,7 +17,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
-MONGO_DB = os.getenv("MONGO_DB", "url_db")
+# 1단계(fetch_api.py)와 같은 DB를 보도록 .env 의 MONGO_DB_NAME 사용
+MONGO_DB = os.getenv("MONGO_DB_NAME", "team10")
 
 IP_PATTERN = re.compile(r"^\d{1,3}(\.\d{1,3}){3}$")
 
