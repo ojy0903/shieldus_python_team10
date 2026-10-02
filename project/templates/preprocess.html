@@ -4,9 +4,140 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>2. 전처리</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 32px 40px;
+      background: var(--card);
+      color: var(--text);
+      font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic", -apple-system, sans-serif;
+      line-height: 1.7;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(31, 41, 55, 0.08);
+    }
+    html { background: var(--bg); }
+    h1 {
+      margin: 0 0 24px;
+      padding-bottom: 16px;
+      font-size: 1.8rem;
+      color: var(--primary);
+      border-bottom: 2px solid var(--border);
+    }
+    h2 {
+      margin: 32px 0 16px;
+      font-size: 1.3rem;
+      color: var(--text);
+    }
+    /* 상단 고정바 */
+    body { margin-top: 90px; }
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 14px max(24px, calc((100% - 960px) / 2 + 40px));
+      background: var(--primary);
+      box-shadow: 0 4px 12px rgba(31, 41, 55, 0.15);
+    }
+    .topbar h1 {
+      margin: 0;
+      padding: 0;
+      font-size: 1.3rem;
+      color: #fff;
+      border: none;
+    }
+    .topbar .page-title {
+      margin: 2px 0 0;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    h3 {
+      margin: 8px 0 8px;
+      padding: 8px 14px;
+      font-size: 1.1rem;
+      background: #eef2ff;
+      border-left: 4px solid var(--primary);
+      border-radius: 6px;
+    }
+    p { color: var(--muted); }
+    form { margin: 12px 0; }
+    button {
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: #fff;
+      background: var(--primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover { background: var(--primary-dark); }
+    button:active { transform: translateY(1px); }
+    form[action="/"] button {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      box-shadow: none;
+    }
+    form[action="/"] button:hover { background: #eef2ff; }
+    table {
+      width: 100%;
+      margin: 16px 0;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border: 1px solid var(--border);
+      word-break: break-all;
+    }
+    th { background: var(--primary); color: #fff; font-weight: 600; }
+    tr:nth-child(even) td { background: #f9fafb; }
+    tr:hover td { background: #eef2ff; }
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 12px 0;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 640px) {
+      body { margin: 0; padding: 20px 16px; border-radius: 0; }
+      h1 { font-size: 1.4rem; }
+      table { display: block; overflow-x: auto; }
+      body { margin-top: 0; padding-top: 90px; }
+      .topbar h1 { font-size: 1.1rem; }
+    }
+  </style>
 </head>
 <body>
-  <h1>2. 중복 제거 &amp; 링크 마스킹 전처리</h1>
+  <header class="topbar">
+    <h1>SK 쉴더스 10조 파이썬 미니 프로젝트</h1>
+    <h2 class="page-title">2. 중복 제거 &amp; 링크 마스킹 전처리</h2>
+  </header>
 
   {% if mongo_id %}
     <form action="{{ url_for('run_preprocess') }}" method="post">
