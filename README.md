@@ -11,6 +11,11 @@ SK Shieldus Rookies 35기 10조 Python 프로젝트
 - API: `https://api.odcloud.kr/api/15109780/v1/uddi:707478dd-938f-4155-badb-fae6202ee7ed`
 - 항목: `날짜`, `홈페이지주소`
 
+## 프로젝트 구조
+<div align=center>
+<img src="./example/project_structure.png" alt="실행 화면">
+</div>
+
 ## 처리 흐름
 
 | 단계 | 모듈 | 함수 | 결과 |
