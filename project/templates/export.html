@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3. CSV 저장</title>
+</head>
+<body>
+  <h1>3. CSV 저장 &amp; 데이터 반환</h1>
+
+  {% if processed_data %}
+    <form action="{{ url_for('run_export') }}" method="post">
+      <button type="submit">CSV 저장 실행</button>
+    </form>
+  {% else %}
+    <p>2단계 전처리 데이터가 없습니다.</p>
+  {% endif %}
+
+  {% if csv_file %}
+    <p>저장된 파일: {{ csv_file }}</p>
+  {% else %}
+    <p>아직 저장된 CSV 파일이 없습니다.</p>
+  {% endif %}
+
+  <form action="{{ url_for('index') }}" method="get">
+    <button type="submit">메인으로 돌아가기</button>
+  </form>
+</body>
+</html>
