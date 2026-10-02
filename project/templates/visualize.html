@@ -15,15 +15,23 @@
   {% else %}
     <p>3단계 CSV 저장이 아직 안 됐습니다.</p>
   {% endif %}
+  
+  <h1>피싱사이트 url 데이터 통계 시각화</h1>
 
   {% if domain_chart %}
-    <img src="{{ url_for('static', filename=domain_chart) }}" alt="TLD TOP 10 차트">
+    <h2>1. TLD(최상위 도메인) TOP 10 차트</h2>
+    <img src="{{ url_for('static', filename=domain_chart) }}" alt="TLD(최상위 도메인) TOP 10 차트" width="600">
   {% else %}
     <p>TLD 차트 이미지가 없습니다.</p>
   {% endif %}
 
+  <br />
+  <br />
+  <br />
+
   {% if protocol_chart %}
-    <img src="{{ url_for('static', filename=protocol_chart) }}" alt="http/https 차트">
+    <h2>2. http/https 통계 차트</h2>
+    <img src="{{ url_for('static', filename=protocol_chart) }}" alt="http/https 차트" width="600">
   {% else %}
     <p>http / https 차트 이미지가 없습니다.</p>
   {% endif %}
