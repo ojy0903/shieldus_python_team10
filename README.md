@@ -7,7 +7,7 @@ SK Shieldus Rookies 35기 10조 Python 프로젝트
 
 ## 데이터
 
-- 출처: 공공데이터포털 「한국인터넷진흥원_피싱사이트 URL」 (2023-12-31 기준)
+- 출처: 공공데이터포털 「한국인터넷진흥원_피싱사이트 URL」 (2023년 데이터 기준)
 - API: `https://api.odcloud.kr/api/15109780/v1/uddi:707478dd-938f-4155-badb-fae6202ee7ed`
 - 항목: `날짜`, `홈페이지주소`
 
@@ -74,7 +74,6 @@ python project/app.py
 브라우저에서 localhost:5000로 접속합니다.
 
 
-
 ## 단계별 데이터 형식
 
 ### 1. MongoDB 원본 문서
@@ -136,7 +135,7 @@ python project/app.py
 
 | 이름 | 담당 | 브랜치 |
 | --- | --- | --- |
-| [ 오준영  ] | 수집 | `joonyoung` |
+| [ 오준영 ] | 수집 | `joonyoung` |
 | [ 최경규 ] | 전처리 | `rudrb` |
 | [ 박정민 ] | 통계·CSV 저장 | `jeonogmin` |
 | [ 이은빛 ] | 시각화 | `eunbit` |
