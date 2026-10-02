@@ -140,4 +140,4 @@ python project/app.py
 | [ 최경규 ] | 전처리 | `rudrb` |
 | [ 박정민 ] | 통계·CSV 저장 | `jeonogmin` |
 | [ 이은빛 ] | 시각화 | `eunbit` |
-| [ 김민석 ] | Flask 화면 | `jeongmin` |
+| [ 김민석 ] | Flask 화면 | `minseok` |
