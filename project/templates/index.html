@@ -6,22 +6,57 @@
   <title>메인</title>
 </head>
 <body>
-  <h1>메인 페이지</h1>
+  <h1>SK 쉴더스 10조 파이썬 미니 프로젝트 - 메인 페이지</h1>
+  <h2>피싱사이트 url 데이터 수집 및 분석하는 프로젝트</h2>
+  자료출처 : https://www.data.go.kr/data/15109780/fileData.do?recommendDataYn=Y
+  <br /> 한국인터넷진흥원에서 공개하는 공공데이터인 피싱사이트 URL 데이터 API를 이용하여 수집후 가공하여 웹으로 출력하는 프로젝트 프로젝트입니다.
+  <br />
+  <br />
+
+  <h3>1. 공공데이터 수집 → MongoDB 저장 기능 </h3>
+  [담당 : 오준영 팀원 ] <br />
+  공공데이터에서 request로 받아와서 MongoDB에 저장합니다.
 
   <form action="{{ url_for('collect') }}" method="get">
     <button type="submit">1. 공공데이터 수집 → MongoDB 저장</button>
   </form>
+  <br />
+  <br />
 
+  <h3>2. 중복 제거 & 링크 마스킹 전처리</h3>
+  [담당 : 최경규 팀원 ] <br />
+  pandas를 사용하여 중복 제거 및 보안을 위한 링크 마스킹을 실시합니다.
   <form action="{{ url_for('preprocess') }}" method="get">
     <button type="submit">2. 중복 제거 &amp; 링크 마스킹 전처리</button>
   </form>
 
+  <br />
+  <br />
+
+  <h3>3. CSV 저장 & 데이터 반환 </h3>
+  [담당 : 박정민 팀원 ] <br />
+  전처리 된 pandas 데이터프레임에서 통계데이터를 위한 컬럼을 추가하고, CSV 파일로 저장하거나 불러옵니다.
   <form action="{{ url_for('export') }}" method="get">
     <button type="submit">3. CSV 저장 &amp; 데이터 반환</button>
   </form>
 
+  <br />
+  <br />
+
+  <h3>4. 시각화 및 이미지파일 저장</h3>
+  [담당 : 이은빛 팀원 ] <br />
+  통계데이터가 추가된 Pandas 데이터프레임에서 matplotlib를 사용하여 시각화를 실시하고 이미지를 파일로 저장합니다.
   <form action="{{ url_for('visualize') }}" method="get">
     <button type="submit">4. 시각화</button>
   </form>
+  <br />
+  <br />
+
+  <h3>5. 웹페이지 구성</h3>
+  [담당 : 김민석 팀원 ] <br />
+  flask를 사용하여 웹페이지를 구현해 각 팀원이 개발한 모듈을 연결합니다.
+  <br />
+  <br />
+
 </body>
 </html>
