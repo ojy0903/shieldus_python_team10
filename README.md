@@ -125,11 +125,13 @@ python project/app.py
 | https 비율 | [  약 70% ]% |
 | 가장 많은 TLD | [ .pro ] ([ 약 52% ]%) |
 
-![graph](image.png)
-![graph2](image-1.png)
+## 분석 차트
+<img src="./example/protocol_chart.png" width="600" alt="실행 화면">
+<img src="./example/domain_chart.png" width="600" alt="실행 화면">
 
 ## 인사이트
-
+1. 프로토콜이 HTTPS 가 약 70% 로 대다수. HTTPS 가 웹사이트 자체의 안전을 보장할 순 없다.
+2. .pro 로 끝나는 URL 이 대다수. 생소한 TLD 의 URL 은 접속을 지양하는 것이 안전하다.
 
 ## 팀원
 
@@ -139,4 +141,4 @@ python project/app.py
 | [ 최경규 ] | 전처리 | `rudrb` |
 | [ 박정민 ] | 통계·CSV 저장 | `jeonogmin` |
 | [ 이은빛 ] | 시각화 | `eunbit` |
-| [ 김민석 ] | Flask 화면 | `minseok` |
+| [ 김민석 ] | Flask 화면 및 병합 | `minseok` |
