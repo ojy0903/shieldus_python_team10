@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>메인</title>
+</head>
+<body>
+  <h1>메인 페이지</h1>
+
+  <form action="{{ url_for('collect') }}" method="get">
+    <button type="submit">1. 공공데이터 수집 → MongoDB 저장</button>
+  </form>
+
+  <form action="{{ url_for('preprocess') }}" method="get">
+    <button type="submit">2. 중복 제거 &amp; 링크 마스킹 전처리</button>
+  </form>
+
+  <form action="{{ url_for('export') }}" method="get">
+    <button type="submit">3. CSV 저장 &amp; 데이터 반환</button>
+  </form>
+
+  <form action="{{ url_for('visualize') }}" method="get">
+    <button type="submit">4. 시각화</button>
+  </form>
+</body>
+</html>
