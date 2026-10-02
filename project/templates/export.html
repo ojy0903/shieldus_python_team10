@@ -16,26 +16,10 @@
     <p>2단계 전처리 데이터가 없습니다.</p>
   {% endif %}
 
-  <h2>.kr / .net 통계</h2>
-  {% if domain_stats %}
-    <ul>
-      {% for row in domain_stats %}
-        <li>{{ row }}</li>
-      {% endfor %}
-    </ul>
+  {% if csv_file %}
+    <p>저장된 파일: {{ csv_file }}</p>
   {% else %}
-    <p>아직 통계 데이터가 없습니다.</p>
-  {% endif %}
-
-  <h2>http / https 통계</h2>
-  {% if protocol_stats %}
-    <ul>
-      {% for row in protocol_stats %}
-        <li>{{ row }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>아직 통계 데이터가 없습니다.</p>
+    <p>아직 저장된 CSV 파일이 없습니다.</p>
   {% endif %}
 
   <form action="{{ url_for('index') }}" method="get">

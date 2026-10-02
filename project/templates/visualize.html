@@ -8,18 +8,18 @@
 <body>
   <h1>4. 시각화</h1>
 
-  {% if domain_stats %}
+  {% if csv_file %}
     <form action="{{ url_for('run_visualize') }}" method="post">
       <button type="submit">차트 생성</button>
     </form>
   {% else %}
-    <p>3단계 통계 데이터가 없습니다.</p>
+    <p>3단계 CSV 저장이 아직 안 됐습니다.</p>
   {% endif %}
 
   {% if domain_chart %}
-    <img src="{{ url_for('static', filename=domain_chart) }}" alt=".kr/.net 차트">
+    <img src="{{ url_for('static', filename=domain_chart) }}" alt="TLD TOP 10 차트">
   {% else %}
-    <p>.kr / .net 차트 이미지가 없습니다.</p>
+    <p>TLD 차트 이미지가 없습니다.</p>
   {% endif %}
 
   {% if protocol_chart %}
