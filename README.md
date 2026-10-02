@@ -17,27 +17,31 @@ SK Shieldus Rookies 35기 10조 Python 프로젝트
 | --- | --- | --- | --- |
 | 1. 수집 | `collector/fetch_api.py` | `fetch_and_save()` | 원본을 MongoDB에 저장, `(컬렉션명, 문서 ID)` 반환 |
 | 2. 전처리 | `preprocessing/preprocess.py` | `preprocess(collection_name, mongo_id)` | 중복 제거·마스킹된 DataFrame |
-| 3. 통계 | `storage/save_data.py` | `check_https_http(df)`, `check_tld_num(df)`, `save_csv(df, file_path)` | 프로토콜 여부 열, TLD별 건수, CSV 파일 |
-| 4. 시각화 | `visualization/charts.py` | `save_protocol_chart(stats)`, `save_domain_chart(stats)` | `static/charts`의 PNG 2개 |
-| 5. 화면 | `app.py`, `templates/index.html` | `[라우트]` | 결과 페이지 |
+| 3. 통계·CSV 저장 | `storage/save_data.py` | `check_https_http(df)`, `save_csv(df, file_path)` | `https`·`http` 열이 추가된 CSV 파일 |
+| 4. 시각화 | `storage/save_data.py`, `visualization/charts.py` | `check_tld_num(df)`, `save_protocol_chart(stats)`, `save_domain_chart(stats)` | TLD별 건수 집계, `static/charts`의 PNG 2개 |
+| 5. 화면 | `app.py`, `templates/*.html` | `/`, `/collect`, `/preprocess`, `/export`, `/visualize` | 단계별 결과 페이지 |
 
 ## 폴더 구조
 
 ```
-project/
-├── app.py                  # Flask 실행 진입점
-├── collector/
-│   └── fetch_api.py        # 공공데이터 API 호출, MongoDB 저장
-├── preprocessing/
-│   └── preprocess.py       # 중복 제거, 마스킹, 도메인·TLD 추출
-├── storage/
-│   └── save_data.py        # http/https 분류, TLD 집계, CSV 저장
-├── visualization/
-│   └── charts.py           # 차트 이미지 생성
-├── templates/
-│   └── index.html
-├── static/charts/          # 생성된 차트 이미지
-└── data/processed/         # 저장된 CSV
+.
+├── .env.example
+├── requirements.txt
+├── example/                    # README용 차트 이미지
+└── project/
+    ├── app.py                  # Flask 실행 진입점
+    ├── collector/fetch_api.py
+    ├── preprocessing/preprocess.py
+    ├── storage/save_data.py
+    ├── visualization/charts.py
+    ├── templates/
+    │   ├── index.html          # 메인 (단계 선택)
+    │   ├── collect.html        # 1. 수집
+    │   ├── preprocess.html     # 2. 전처리
+    │   ├── export.html         # 3. CSV 저장
+    │   └── visualize.html      # 4. 시각화
+    ├── static/charts/          # 생성된 차트 이미지
+    └── data/processed/         # 저장된 CSV
 ```
 
 ## 실행 방법
@@ -102,12 +106,15 @@ python project/app.py
 처리 순서: 결측 제거 → 표기 통일(공백, 소문자, 끝 슬래시) → URL 기준 중복 제거
 → 도메인·TLD 추출 → 마스킹 → 날짜 변환. 원본 URL은 결과에 남기지 않습니다.
 
-### 3. 통계
+### 3. 통계·CSV 저장
 
 - `check_https_http`: 전처리 결과에 `https`, `http` 열(True/False)을 추가합니다.
   프로토콜 표기가 없는 주소는 둘 다 False입니다.
-- `check_tld_num`: `tld`, `count` 두 열의 표를 반환합니다.
 - `save_csv`: `utf-8-sig` 인코딩으로 저장하고 성공 여부를 반환합니다.
+  `app.py`는 `data/processed/classified_phishing_data.csv`에 저장하며,
+  열은 `date`, `month`, `masked_url`, `domain`, `tld`, `https`, `http` 7개입니다.
+- `check_tld_num`: `tld`, `count` 두 열의 표를 반환합니다.
+  CSV에는 저장되지 않고 4단계에서 TLD 차트를 만들 때 사용됩니다.
 
 ### 4. 차트
 
