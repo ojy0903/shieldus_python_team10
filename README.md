@@ -122,8 +122,8 @@ python project/app.py
 | --- | --- |
 | 수집 건수 | [ 약 27,000 건 ] |
 | 중복 제거 후 건수 | [ 약 17,000 건  ] |
-| https 비율 | [  약 70% ]% |
-| 가장 많은 TLD | [ .pro ] ([ 약 52% ]%) |
+| https 비율 | [ 약 70 % ] |
+| 가장 많은 TLD | [ .pro ] (약 52%) |
 
 ## 분석 차트
 <img src="./example/protocol_chart.png" width="600" alt="실행 화면">
