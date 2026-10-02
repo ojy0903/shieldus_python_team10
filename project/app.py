@@ -2,6 +2,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 
 from collector.fetch_api import fetch_and_save
+# 라우트 함수 preprocess() 와 이름이 겹치므로 별칭으로 import
+from preprocessing.preprocess import preprocess as preprocess_data
 
 app = Flask(__name__)
 
@@ -9,8 +11,10 @@ app = Flask(__name__)
 # 1. 수집 결과
 collection_name = None
 mongo_id = None
-# 2. 전처리 결과
-processed_data = []
+# 2. 전처리 결과 (DataFrame, 3단계 save_stats() 에 그대로 넘김)
+processed_data = None
+# 전처리 페이지에 미리보기로 보여줄 행 수
+PREVIEW_ROWS = 20
 # 3. CSV 저장 & 통계 결과
 domain_stats = []
 protocol_stats = []
@@ -45,19 +49,37 @@ def run_collect():
 
 # 2. MongoDB 원본 → 중복 제거 & 링크 마스킹
 @app.route('/preprocess')
-def preprocess():
-    return render_template('preprocess.html', mongo_id=mongo_id, processed_data=processed_data)
+def preprocess(error=None):
+    # 전체 데이터는 수만 건이라 앞부분만 dict 리스트로 바꿔 템플릿에 전달
+    if processed_data is None:
+        rows, total_count = [], 0
+    else:
+        rows = processed_data.head(PREVIEW_ROWS).astype({'date': str}).to_dict('records')
+        total_count = len(processed_data)
+    return render_template('preprocess.html', mongo_id=mongo_id, processed_data=rows,
+                           total_count=total_count, error=error)
 
 @app.route('/preprocess/run', methods=['POST'])
 def run_preprocess():
-    # TODO: preprocess(collection_name, mongo_id) 호출 후 processed_data 전역변수에 저장
+    global processed_data
+    # 1단계에서 저장한 MongoDB 문서를 전처리, 결과 DataFrame 을 전역변수에 저장
+    try:
+        result = preprocess_data(collection_name, mongo_id)
+    except Exception as e:
+        # MongoDB 접속 실패 등은 전처리 페이지에 에러 메시지로 표시
+        return preprocess(error=str(e))
+    # preprocess() 는 문서를 못 찾으면 예외 대신 빈 DataFrame 을 반환
+    if result.empty:
+        return preprocess(error='MongoDB 에서 수집 데이터를 찾지 못했습니다.')
+    processed_data = result
     return redirect(url_for('preprocess'))
 
 
 # 3. 전처리 데이터 → CSV 저장 & 반환
 @app.route('/export')
 def export():
-    return render_template('export.html', processed_data=processed_data,
+    # DataFrame 은 템플릿 if 문에서 참/거짓 판단이 안 되므로 전처리 완료 여부만 전달
+    return render_template('export.html', processed_data=processed_data is not None,
                            domain_stats=domain_stats, protocol_stats=protocol_stats)
 
 @app.route('/export/run', methods=['POST'])
